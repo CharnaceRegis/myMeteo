@@ -8,7 +8,9 @@ import { getWeatherInterpretation } from "@/composables/meteo-service";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Searchbar } from '@/components/SearchBar'
 import { MeteoAdvanced } from '@/components/MeteoAdvanced'
-import { MeteoFiveDays } from '@/components/MeteoFiveDays'
+import { MeteoFiveDays } from '@/components/MeteoDailyWeather'
+import { getFavorites } from '@/composables/favorites';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type RootStackParamList = {
     Forecast: { city: string;[key: string]: any };
@@ -22,7 +24,7 @@ export interface DailyWeather {
 }
 
 export default function Home() {
-    const nav = useNavigation<NavigationProp<RootStackParamList>>();
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const [coords, setCoords] = useState<{ lat: number, lng: number } | null>(null);
     const [weather, setWeather] = useState<any>(null);
     const [city, setCity] = useState<string>('');
@@ -79,7 +81,7 @@ export default function Home() {
     }
 
     function goToForecastPage() {
-        nav.navigate("Forecast", { city, ...weather.daily });
+        navigation.navigate("favorites", { city, ...weather.daily });
     }
 
     function getDailyWeatherArray() {
@@ -107,26 +109,29 @@ export default function Home() {
                 <MeteoBasic
                     temperature={Math.round(currentWeather?.temperature)}
                     city={city}
+                    coords={coords!}
                     interpretation={
                         getWeatherInterpretation(currentWeather?.weathercode) || { label: '', image: null }
                     }
-                    onPress={goToForecastPage} />
+                />
             </View>
+
             <View style={styles.searchbar}>
                 <Searchbar onSubmit={fetchCoordsByCity} />
             </View>
-            <View style={styles.advanced}>
-                {dailyWeatherArray.length > 0 ? (
-                    <MeteoFiveDays dailyWeather={dailyWeatherArray} />
-                ) : (
-                    <Txt>...</Txt>
-                )}
 
+            <View style={styles.advanced}>
                 <MeteoAdvanced
                     wind={currentWeather?.windspeed}
                     dusk={weather?.daily.sunrise[0].split("T")[1]}
                     dawn={weather?.daily.sunset[0].split("T")[1]}
                 />
+            </View>
+
+            <View style={styles.dailyWeather}>
+                {dailyWeatherArray.length > 0 ? (
+                    <MeteoFiveDays dailyWeather={dailyWeatherArray} />
+                ) : null}
             </View>
         </>
     );
@@ -135,14 +140,19 @@ export default function Home() {
 const styles = StyleSheet.create({
     base: {
         flex: 2,
-        padding: 20,
+        padding: 10,
     },
     searchbar: {
         flex: 1,
-        padding: 20,
+        padding: 10,
+        justifyContent: 'center',
+    },
+    dailyWeather: {
+        flex: 1,
+        padding: 10,
     },
     advanced: {
-        flex: 2,
-        padding: 20,
+        flex: 1,
+        padding: 10,
     }
 })

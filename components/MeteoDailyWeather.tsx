@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Txt } from '@/components/Txt';
-import { MeteoFiveDaysBasic } from '@/components/MeteoFiveDaysBasic';
+import { MeteoFiveDaysBasic } from '@/components/MeteoDailyWeatherBasic';
 import { getWeatherInterpretation } from "@/composables/meteo-service";
 import { DailyWeather } from '@/app/home';
 import { StyledContainer } from '@/components/MeteoAdvanced';

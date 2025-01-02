@@ -1,8 +1,7 @@
-import { Text, View, ImageBackground, StyleSheet } from "react-native";
-import backgroundImage from '@/assets/images/background.png';
 import Home from './home';
 import AlataR from '@/assets/fonts/Alata-Regular.ttf';
 import { useFonts } from 'expo-font';
+import { Container } from "@/components/Container";
 
 export default function App() {
   const [isFontLoaded] = useFonts({
@@ -10,19 +9,9 @@ export default function App() {
   });
 
   return isFontLoaded ? (
-    <ImageBackground source={backgroundImage} style={styles.img_background} imageStyle={styles.img}>
+    <Container>
       <Home />
-    </ImageBackground>
+    </Container>
   ) : null;
 }
 
-
-const styles = StyleSheet.create({
-  img_background: {
-    flex: 1,
-    backgroundColor: "black",
-  },
-  img: {
-    opacity: 0.75,
-  },
-});

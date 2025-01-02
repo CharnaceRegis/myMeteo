@@ -9,6 +9,6 @@ export default function RootLayout() {
     initialRouteName="home"
   >
     <Stack.Screen name="home" />
-    {/* <Stack.Screen name="Forecast" /> */}
+    <Stack.Screen name="favorites" />
   </Stack>
 }
