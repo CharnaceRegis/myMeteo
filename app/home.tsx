@@ -14,13 +14,11 @@ type RootStackParamList = {
     Forecast: { city: string;[key: string]: any };
 };
 
-export interface FiveDays {
-    dailyWeather: Array<{
-        date: string;
-        temperature_2m_max: number;
-        weathercode: number;
-        windspeed_10m_max: number;
-    }>;
+export interface DailyWeather {
+    date: string;
+    temperature_2m_max: number;
+    weathercode: number;
+    windspeed_10m_max: number;
 }
 
 export default function Home() {
@@ -29,7 +27,7 @@ export default function Home() {
     const [weather, setWeather] = useState<any>(null);
     const [city, setCity] = useState<string>('');
     const currentWeather = weather?.current_weather;
-    const [dailyWeatherArray, setDailyWeatherArray] = useState<FiveDays[]>([]);
+    const [dailyWeatherArray, setDailyWeatherArray] = useState<DailyWeather[]>([]);
 
     useEffect(() => {
         getCoords();

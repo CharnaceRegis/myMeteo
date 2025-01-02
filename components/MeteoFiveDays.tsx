@@ -3,11 +3,14 @@ import { View, StyleSheet } from 'react-native';
 import { Txt } from '@/components/Txt';
 import { MeteoFiveDaysBasic } from '@/components/MeteoFiveDaysBasic';
 import { getWeatherInterpretation } from "@/composables/meteo-service";
-import { FiveDays } from '@/app/home';
+import { DailyWeather } from '@/app/home';
 import { StyledContainer } from '@/components/MeteoAdvanced';
 
+interface DailyWeatherProps {
+    dailyWeather: DailyWeather[];
+}
 
-export function MeteoFiveDays({ dailyWeather }: FiveDays) {
+export function MeteoFiveDays({ dailyWeather }: DailyWeatherProps) {
     return (
         <View style={s.container}>
             {dailyWeather.length > 0 ? (
